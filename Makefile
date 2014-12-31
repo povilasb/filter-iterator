@@ -9,10 +9,7 @@ build_tests ?= OFF
 
 all:
 	@echo "Usage:"
-	@echo "\tmake release"
-	@echo "\tmake debug"
 	@echo "\tmake docs"
-	@echo "\tmake run"
 	@echo "\tmake test"
 	@echo "\tmake clean"
 .PHONY: all
@@ -27,19 +24,8 @@ build:
 .PHONY: build
 
 
-release:
-	build_type=Release $(MAKE) build
-.PHONY: release
-
-
-debug:
-	build_type=Debug CXX=clang++ $(MAKE) build
-.PHONY: debug
-
-
 test:
 	build_tests=ON $(MAKE) build
-#make -C $(build_dir) run-tests
 .PHONY: test
 
 
