@@ -2,7 +2,6 @@
 #define FILTER_ITERATOR_HPP
 
 #include <iterator>
-#include <vector>
 
 
 namespace nonstd
@@ -89,7 +88,6 @@ private:
 	ForwardIterator end_;
 	ForwardIterator iter_;
 	UnaryPredicate predicate_;
-	std::vector<UnaryPredicate> predicates_;
 
 
 	/**
