@@ -1,5 +1,6 @@
 #include <vector>
 #include <string>
+#include <functional>
 
 #include <gmock/gmock.h>
 
@@ -108,6 +109,22 @@ TEST(filter_iterator_dereference, returns_pointer_to_original_iterator_item)
 	not_empty_string predicate;
 	nonstd::filter_iterator<std::vector<std::string>::iterator,
 		not_empty_string> it(lines.begin(), lines.end(), predicate);
+
+	ASSERT_THAT(it->c_str(), StrEq("line1"));
+}
+
+
+TEST(filter_iterator_dereference,
+	returns_pointer_to_original_iterator_item_with_method_predicate)
+{
+	std::vector<std::string> lines;
+	lines.push_back("line1");
+
+	typedef std::const_mem_fun_t<bool, std::string> predicate_type;
+	predicate_type predicate = std::mem_fun(&std::string::empty);
+
+	nonstd::filter_iterator<std::vector<std::string>::iterator,
+		predicate_type> it(lines.begin(), lines.end(), predicate);
 
 	ASSERT_THAT(it->c_str(), StrEq("line1"));
 }
