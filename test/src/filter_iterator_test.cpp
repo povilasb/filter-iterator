@@ -128,3 +128,16 @@ TEST(filter_iterator_incremenet,
 
 	ASSERT_THAT(*it, Eq(2));
 }
+
+
+TEST(filter_iterator_not_equals_iterator,
+	returns_true_when_iterators_do_not_point_to_the_same_item)
+{
+	std::vector<int> numbers;
+	numbers.push_back(1);
+
+	nonstd::filter_iterator<std::vector<int>::iterator, bool(*)(int)>
+		it(numbers.begin(), numbers.end(), positive_number);
+
+	ASSERT_THAT(it != numbers.end(), Eq(true));
+}

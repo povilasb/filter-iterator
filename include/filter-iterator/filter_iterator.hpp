@@ -51,12 +51,22 @@ public:
 
 	/**
 	 * Compares filter iterator with it's original forward iterator.
-	 * Useful for comparing if forward iterator is not end iterator.
 	 */
 	bool
 	operator==(const ForwardIterator& it) const
 	{
 		return this->iter_ == it;
+	}
+
+
+	/**
+	 * Compares if filter iterator does not point to the same element
+	 * as the specified iterator does.
+	 */
+	bool
+	operator!=(const ForwardIterator& it) const
+	{
+		return !this->operator==(it);
 	}
 
 
