@@ -120,8 +120,10 @@ TEST(filter_iterator_dereference,
 	std::vector<std::string> lines;
 	lines.push_back("line1");
 
-	typedef std::const_mem_fun_t<bool, std::string> predicate_type;
-	predicate_type predicate = std::mem_fun(&std::string::empty);
+	typedef std::unary_negate<
+			std::const_mem_fun_ref_t<bool, std::string>
+		> predicate_type;
+	predicate_type predicate = std::not1(std::mem_fun_ref(&std::string::empty));
 
 	nonstd::filter_iterator<std::vector<std::string>::iterator,
 		predicate_type> it(lines.begin(), lines.end(), predicate);
