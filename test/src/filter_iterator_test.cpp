@@ -88,6 +88,26 @@ TEST(filter_iterator_create,
 }
 
 
+TEST(filter_iterator_create,
+	constructs_filter_iterator_from_other_filter_iterator)
+{
+	std::vector<int> numbers;
+	numbers.push_back(-2);
+	numbers.push_back(-1);
+	numbers.push_back(0);
+	numbers.push_back(1);
+
+	filter_iterator<std::vector<int>::iterator, odd_number>
+		it(numbers.begin(), numbers.end(), odd_number());
+
+	filter_iterator<
+		filter_iterator<std::vector<int>::iterator, odd_number>,
+		bool (*)(int)> it2(it, numbers.end(), positive_number);
+
+	ASSERT_THAT(*it2, Eq(1));
+}
+
+
 TEST(filter_iterator_incremenet,
 	returns_iterator_pointing_to_first_element_satisfying_predicate)
 {
