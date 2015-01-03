@@ -22,10 +22,6 @@ file(GLOB_RECURSE src_files "${src_dir}/*.cpp")
 set(FILTER_ITERATOR_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include)
 include_directories(${FILTER_ITERATOR_INCLUDE_DIRS})
 
-#add_library("${project_lib}" STATIC ${src_files})
-#set_target_properties(${project_lib} PROPERTIES
-#	OUTPUT_NAME ${PROJECT_NAME})
-
 
 if (FILTER_ITERATOR_ENABLE_TESTS)
 	add_subdirectory(test)

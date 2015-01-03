@@ -6,25 +6,43 @@
 
 namespace nonstd
 {
+namespace iterator
+{
+
+namespace impl
+{
+
+	/**
+	 * Default predicate that always returns true.
+	 */
+	template <typename TIterator>
+	struct default_unary_predicate {
+		bool
+		operator()(const typename std::iterator_traits<TIterator>
+			::value_type&)
+		{
+			return true;
+		}
+	};
+} // namespace impl.
+
 
 /**
  * Filter iterator template that allows to iterate forward skipping
  * items that do not satisfy the specified predicate.
  */
-template <typename ForwardIterator, typename UnaryPredicate>
-class filter_iterator {
+template <typename ForwardIterator, typename UnaryPredicate
+	= impl::default_unary_predicate<ForwardIterator> >
+class filter_iterator
+	: public std::iterator<
+		typename std::iterator_traits<ForwardIterator>::iterator_category,
+		typename std::iterator_traits<ForwardIterator>::value_type
+		> {
 public:
-	typedef typename std::iterator_traits<ForwardIterator>::reference
-		reference;
-	typedef typename std::iterator_traits<ForwardIterator>::pointer
-		pointer;
-	typedef typename std::iterator_traits<ForwardIterator>::value_type
-		value_type;
-
-
 	filter_iterator(ForwardIterator begin, ForwardIterator end,
-		UnaryPredicate predicate) : begin_(begin), end_(end),
-		iter_(begin), predicate_(predicate)
+		UnaryPredicate predicate
+			= impl::default_unary_predicate<ForwardIterator>())
+		: begin_(begin), end_(end), iter_(begin), predicate_(predicate)
 	{
 		if ((this->iter_ != this->end_)
 			&& !this->predicate_(*this->iter_)) {
@@ -33,7 +51,16 @@ public:
 	}
 
 
-	reference
+	/**
+	 * This constructor is meant for end iterator construction.
+	 */
+	filter_iterator(ForwardIterator end) : begin_(end), end_(end),
+		iter_(end), predicate_(UnaryPredicate())
+	{
+	}
+
+
+	typename std::iterator_traits<ForwardIterator>::reference
 	operator*() const
 	{
 		return *this->iter_;
@@ -51,12 +78,22 @@ public:
 
 	/**
 	 * Compares filter iterator with it's original forward iterator.
-	 * Useful for comparing if forward iterator is not end iterator.
 	 */
 	bool
 	operator==(const ForwardIterator& it) const
 	{
 		return this->iter_ == it;
+	}
+
+
+	/**
+	 * Compares if filter iterator does not point to the same element
+	 * as the specified iterator does.
+	 */
+	bool
+	operator!=(const ForwardIterator& it) const
+	{
+		return !this->operator==(it);
 	}
 
 
@@ -76,7 +113,7 @@ public:
 	/**
 	 * @return pointer to item pointed by the iterator.
 	 */
-	pointer
+	typename std::iterator_traits<ForwardIterator>::pointer
 	operator->() const
 	{
 		return this->iter_.operator->();
@@ -101,6 +138,7 @@ private:
 	}
 };
 
+} // namespace iterator.
 } // namespace nonstd.
 
 #endif /* FILTER_ITERATOR_HPP */
