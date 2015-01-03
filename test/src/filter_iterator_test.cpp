@@ -38,6 +38,12 @@ struct not_empty_string {
 };
 
 
+namespace nonstd
+{
+namespace iterator
+{
+
+
 TEST(filter_iterator_operator_ptr, returns_element_pointed_by_iterator)
 {
 	std::vector<int> numbers;
@@ -46,7 +52,7 @@ TEST(filter_iterator_operator_ptr, returns_element_pointed_by_iterator)
 	}
 
 	odd_number predicate;
-	nonstd::filter_iterator<std::vector<int>::iterator, odd_number>
+	filter_iterator<std::vector<int>::iterator, odd_number>
 		it(numbers.begin(), numbers.end(), predicate);
 
 	ASSERT_THAT(*it, Eq(1));
@@ -59,7 +65,7 @@ TEST(filter_iterator_create,
 	std::vector<int> numbers;
 
 	odd_number dummy_predicate;
-	nonstd::filter_iterator<std::vector<int>::iterator, odd_number>
+	filter_iterator<std::vector<int>::iterator, odd_number>
 		it(numbers.begin(), numbers.end(), dummy_predicate);
 
 	ASSERT_THAT(it, Eq(numbers.end()));
@@ -75,7 +81,7 @@ TEST(filter_iterator_create,
 	numbers.push_back(5);
 
 	odd_number predicate;
-	nonstd::filter_iterator<std::vector<int>::iterator, odd_number>
+	filter_iterator<std::vector<int>::iterator, odd_number>
 		it(numbers.begin(), numbers.end(), predicate);
 
 	ASSERT_THAT(*it, Eq(5));
@@ -92,7 +98,7 @@ TEST(filter_iterator_incremenet,
 	numbers.push_back(5);
 
 	odd_number predicate;
-	nonstd::filter_iterator<std::vector<int>::iterator, odd_number>
+	filter_iterator<std::vector<int>::iterator, odd_number>
 		it(numbers.begin(), numbers.end(), predicate);
 
 	++it;
@@ -107,7 +113,7 @@ TEST(filter_iterator_dereference, returns_pointer_to_original_iterator_item)
 	lines.push_back("line1");
 
 	not_empty_string predicate;
-	nonstd::filter_iterator<std::vector<std::string>::iterator,
+	filter_iterator<std::vector<std::string>::iterator,
 		not_empty_string> it(lines.begin(), lines.end(), predicate);
 
 	ASSERT_THAT(it->c_str(), StrEq("line1"));
@@ -125,7 +131,7 @@ TEST(filter_iterator_dereference,
 		> predicate_type;
 	predicate_type predicate = std::not1(std::mem_fun_ref(&std::string::empty));
 
-	nonstd::filter_iterator<std::vector<std::string>::iterator,
+	filter_iterator<std::vector<std::string>::iterator,
 		predicate_type> it(lines.begin(), lines.end(), predicate);
 
 	ASSERT_THAT(it->c_str(), StrEq("line1"));
@@ -140,7 +146,7 @@ TEST(filter_iterator_incremenet,
 	numbers.push_back(-1);
 	numbers.push_back(2);
 
-	nonstd::filter_iterator<std::vector<int>::iterator, bool(*)(int)>
+	filter_iterator<std::vector<int>::iterator, bool(*)(int)>
 		it(numbers.begin(), numbers.end(), positive_number);
 
 	++it;
@@ -155,8 +161,12 @@ TEST(filter_iterator_not_equals_iterator,
 	std::vector<int> numbers;
 	numbers.push_back(1);
 
-	nonstd::filter_iterator<std::vector<int>::iterator, bool(*)(int)>
+	filter_iterator<std::vector<int>::iterator, bool(*)(int)>
 		it(numbers.begin(), numbers.end(), positive_number);
 
 	ASSERT_THAT(it != numbers.end(), Eq(true));
 }
+
+
+} // namespace iterator.
+} // namespace nonstd.

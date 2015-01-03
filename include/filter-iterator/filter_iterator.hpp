@@ -6,6 +6,9 @@
 
 namespace nonstd
 {
+namespace iterator
+{
+
 
 /**
  * Filter iterator template that allows to iterate forward skipping
@@ -107,6 +110,7 @@ private:
 	}
 };
 
+} // namespace iterator.
 } // namespace nonstd.
 
 #endif /* FILTER_ITERATOR_HPP */
