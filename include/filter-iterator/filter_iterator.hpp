@@ -12,7 +12,11 @@ namespace nonstd
  * items that do not satisfy the specified predicate.
  */
 template <typename ForwardIterator, typename UnaryPredicate>
-class filter_iterator {
+class filter_iterator
+	: public std::iterator<
+		typename std::iterator_traits<ForwardIterator>::iterator_category,
+		typename std::iterator_traits<ForwardIterator>::value_type
+		> {
 public:
 	typedef typename std::iterator_traits<ForwardIterator>::reference
 		reference;
