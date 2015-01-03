@@ -51,6 +51,15 @@ public:
 	}
 
 
+	/**
+	 * This constructor is meant for end iterator construction.
+	 */
+	filter_iterator(ForwardIterator end) : begin_(end), end_(end),
+		iter_(end), predicate_(UnaryPredicate())
+	{
+	}
+
+
 	typename std::iterator_traits<ForwardIterator>::reference
 	operator*() const
 	{
