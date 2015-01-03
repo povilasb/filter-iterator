@@ -9,12 +9,30 @@ namespace nonstd
 namespace iterator
 {
 
+namespace impl
+{
+
+	/**
+	 * Default predicate that always returns true.
+	 */
+	template <typename TIterator>
+	struct default_unary_predicate {
+		bool
+		operator()(const typename std::iterator_traits<TIterator>
+			::value_type&)
+		{
+			return true;
+		}
+	};
+} // namespace impl.
+
 
 /**
  * Filter iterator template that allows to iterate forward skipping
  * items that do not satisfy the specified predicate.
  */
-template <typename ForwardIterator, typename UnaryPredicate>
+template <typename ForwardIterator, typename UnaryPredicate
+	= impl::default_unary_predicate<ForwardIterator> >
 class filter_iterator
 	: public std::iterator<
 		typename std::iterator_traits<ForwardIterator>::iterator_category,
@@ -22,8 +40,9 @@ class filter_iterator
 		> {
 public:
 	filter_iterator(ForwardIterator begin, ForwardIterator end,
-		UnaryPredicate predicate) : begin_(begin), end_(end),
-		iter_(begin), predicate_(predicate)
+		UnaryPredicate predicate
+			= impl::default_unary_predicate<ForwardIterator>())
+		: begin_(begin), end_(end), iter_(begin), predicate_(predicate)
 	{
 		if ((this->iter_ != this->end_)
 			&& !this->predicate_(*this->iter_)) {

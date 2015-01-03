@@ -168,5 +168,21 @@ TEST(filter_iterator_not_equals_iterator,
 }
 
 
+TEST(filter_iterator_with_default_predicate,
+	advances_iterator_in_the_same_fashion_as_original_iterator)
+{
+	std::vector<int> numbers;
+	numbers.push_back(1);
+	numbers.push_back(2);
+
+	filter_iterator<std::vector<int>::iterator> it(numbers.begin(),
+		numbers.end());
+
+	++it;
+
+	ASSERT_THAT(*it, Eq(2));
+}
+
+
 } // namespace iterator.
 } // namespace nonstd.
