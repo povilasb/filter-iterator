@@ -18,14 +18,6 @@ class filter_iterator
 		typename std::iterator_traits<ForwardIterator>::value_type
 		> {
 public:
-	typedef typename std::iterator_traits<ForwardIterator>::reference
-		reference;
-	typedef typename std::iterator_traits<ForwardIterator>::pointer
-		pointer;
-	typedef typename std::iterator_traits<ForwardIterator>::value_type
-		value_type;
-
-
 	filter_iterator(ForwardIterator begin, ForwardIterator end,
 		UnaryPredicate predicate) : begin_(begin), end_(end),
 		iter_(begin), predicate_(predicate)
@@ -37,7 +29,7 @@ public:
 	}
 
 
-	reference
+	typename std::iterator_traits<ForwardIterator>::reference
 	operator*() const
 	{
 		return *this->iter_;
@@ -90,7 +82,7 @@ public:
 	/**
 	 * @return pointer to item pointed by the iterator.
 	 */
-	pointer
+	typename std::iterator_traits<ForwardIterator>::pointer
 	operator->() const
 	{
 		return this->iter_.operator->();
