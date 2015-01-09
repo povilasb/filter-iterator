@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 2.6)
 
-# Configurable.
-
 project(filter-iterator CXX)
 
 option(FILTER_ITERATOR_ENABLE_TESTS
