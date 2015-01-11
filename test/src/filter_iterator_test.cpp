@@ -204,5 +204,19 @@ TEST(filter_iterator_with_default_predicate,
 }
 
 
+TEST(make_filter_iterator, constructs_filter_iterator)
+{
+	std::vector<int> numbers;
+	numbers.push_back(0);
+	numbers.push_back(1);
+
+	filter_iterator<std::vector<int>::iterator, odd_number> it =
+		make_filter_iterator(numbers.begin(), numbers.end(),
+		odd_number());
+
+	ASSERT_THAT(*it, Eq(1));
+}
+
+
 } // namespace iterator.
 } // namespace nonstd.

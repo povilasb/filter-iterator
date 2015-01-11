@@ -138,6 +138,19 @@ private:
 	}
 };
 
+
+/**
+ * Creates filter iterator with the specified begin, end iterators and
+ * predicate. If predicate returns false, value is skipped while iterating.
+ */
+template <typename Iterator, typename UnaryPredicate>
+filter_iterator<Iterator, UnaryPredicate>
+make_filter_iterator(Iterator begin, Iterator end, UnaryPredicate predicate)
+{
+	return filter_iterator<Iterator, UnaryPredicate>(begin, end, predicate);
+}
+
+
 } // namespace iterator.
 } // namespace nonstd.
 
